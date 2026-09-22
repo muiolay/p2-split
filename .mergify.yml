@@ -1,0 +1,19 @@
+queue_rules:
+  - name: default
+    batch_size: 3
+    batch_max_wait_time: 45 s
+    queue_conditions:
+      - base=main
+    merge_conditions:
+      - check-success=p2-ci
+
+merge_queue:
+  max_parallel_checks: 3
+
+pull_request_rules:
+  - name: queue it
+    conditions:
+      - base=main
+    actions:
+      queue:
+        name: default
